@@ -1,0 +1,77 @@
+<!-- Navbar Component -->
+<app-navbaraccount></app-navbaraccount>
+
+<!-- Header and search bar -->
+<header class="masthead text-white text-center" style="background-color: white; padding-bottom: 50px;" id="background">
+  <div class="container" style="padding:0px 15px;">
+    <div class="row">
+      <div class="col-xl-9 mx-auto" style="height:130px;">
+        <!-- Header text -->
+        <div>
+          <h3 style="color:#B6862C;">The Best Search Engine for</h3>
+          <h3 style="color:#B6862C; margin-top: 15px;">
+            Environmental Peer Reviewed Articles
+          </h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search bar and button -->
+    <div class="row justify-content-center" style="background-color:transparent;margin:0px;">
+      <div
+        class="col-6 offset-3"
+        style="padding:0px;color:rgb(201,23,23);margin:0px 285px;"
+      >
+        <div class="row" style="margin:0px;">
+          <!-- Search -->
+          <form
+            #saveSearchForm="ngForm"
+            (ngSubmit)="openSearchPage(saveSearchForm)"
+            class="query-search-form"
+          >
+            <!-- Search Bar -->
+            <!-- <div class="row"> -->
+              <input
+                ngModel
+                name="search"
+                #search="ngModel"
+                [(ngModel)]="userService.selectedUser.search"
+                class="form-control"
+                type="search"
+                placeholder="Search Peer Reviewed Articles"
+                id="search-field"
+                style="background-color: #fff;"
+                list="staticUserIds"
+              />
+              <app-concepts></app-concepts>
+            <!-- </div> -->
+
+            <!-- Search Button -->
+            <!-- <div class="row" style="margin:0px;"> -->
+              <div class="col offset-0 align-self-center" style="padding:15px;">
+                <input
+                  type="submit"
+                  value="Search"
+                  id="search"
+                  class="searchbutton"
+                  role="button"
+                  style="color:#B6862C;/*height:40px;*//*width:40px;*/margin:0px;padding:10px 20px;border-radius:20px;"
+                />
+              </div>
+            <!-- </div> -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+
+<!-- <div style="margin-bottom:300px;"></div> -->
+
+<!-- Footer Component -->
+<app-footerfixed></app-footerfixed>
+
+<!-- <script src="assets/js/jquery.min.js"></script> -->
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/bs-animation.js"></script>

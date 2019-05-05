@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Display Results</title>
+
+    <!-- CSS and Bootstrap files needed for styling -->
+    <link
+      rel="stylesheet"
+      href="../../../assets/bootstrap/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../../../assets/fonts/font-awesome.min.css" />
+    <link rel="stylesheet" href="../../../assets/fonts/typicons.min.css" />
+    <!-- <link rel="stylesheet" href="../../../assets/css/Footer-Basic.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../../assets/css/Navigation-with-Search.css"
+    />
+    <link rel="stylesheet" href="../../../assets/css/styles.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="../../../citestyle.css"/>
+    <!-- <link rel="stylesheet" href="../homepage_assets/css/untitled.css"> -->
+  </head>
+
+  <body>
+
+    <!-- Navbar Component -->
+    <app-navbaraccount></app-navbaraccount>
+
+    <!-- Article information -->
+    <div *ngIf="response">
+      <div id="info-background">
+
+        <div id="info">
+          <h2>{{ article_title }}</h2>
+          <small *ngFor="let author of authors" id="author"
+            >{{ author.name }} -
+          </small>
+          <small id="year">{{ year | slice: 0:10 }}</small>
+
+<div id="inputText"><p id="abstract">{{ abstract }}</p></div>
+
+<!-- <a href="javascript:highlight_text('water')" role="button" class="btn">Highlight 'water' Test</a>
+<a href="javascript:highlight_text('air')" role="button" class="btn">Highlight 'air' Test</a>
+<a href="javascript:remove_highlight()" role="button" class="btn">Remove Highlight</a> -->
+
+          <div style="margin-bottom: 10px;">
+            <!-- Citation button with popup box -->
+            <div id="popupbox" class="popupposition">
+              <div id="popupwrapper">
+                <div id="container">
+                  <h3>MLA</h3>
+                  <p>
+                    Casagrande, Daniel J., et al. "Sulfur in peat-forming
+                    systems of the Okefenokee Swamp and Florida Everglades:
+                    origins of sulfur in coal." Geochimica et Cosmochimica Acta
+                    41.1 (1977): 161-167.
+                  </p>
+                  <p>
+                    <a
+                      href="javascript:void(0)"
+                      (click)="toggle_cite('popupbox')"
+                      >Close</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- View PDF link which opens Science Direct page in new tab -->
+            <a href="{{url}}" target="_blank" class="subtasks">
+              <i class="fa fa-file-pdf-o"></i>&nbsp;View PDF
+            </a>
+            <!-- Cite link with popup -->
+            <a
+              href="javascript:void(0)"
+              (click)="toggle_cite('popupbox')"
+              class="subtasks"
+            >
+              <i class="fa fa-quote-right"></i>&nbsp;Cite
+            </a>
+
+            <!-- Save button with popup box -->
+            <div id="save_success" class="popupposition">
+              <div id="popupwrapper">
+                <div id="container">
+                  <h3>Article was successfully saved!</h3>
+                  <p>
+                    <a
+                      href="javascript:void(0)"
+                      (click)="save_success('save_success')"
+                      >Close</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- Save link -->
+            <a
+              href="javascript:void(0)"
+              (click)="saveArticle(article_title, authors, year, abstract)"
+              class="subtasks"
+              tabindex="1"
+              >&nbsp;<i class="fa fa-save"></i>&nbsp;<span id="{{ article_title }}">Save</span>
+            </a>
+
+            <!-- Share link popup information -->
+            <div id="share" class="popupposition">
+              <div id="popupwrapper">
+                <div id="container">
+                  <div style="margin-bottom: 3px;">
+                    <fb-like url="{{url}}"></fb-like>
+                  </div>
+                  <div><google-plus url="{{url}}"></google-plus></div>
+                  <div><linkedin-share url="{{url}}"></linkedin-share></div>
+
+                  <div style="margin-bottom: 3px;">
+                    <pin-it url="{{url}}"></pin-it>
+                  </div>
+                  <tweet url="{{url}}"></tweet>
+
+                  <p>
+                    <a href="javascript:void(0)" (click)="share('share')"
+                      >Close</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Share link -->
+            <a
+              href="javascript:void(0)"
+              (click)="share('share')"
+              class="subtasks"
+            >
+              <i class="fa fa-share-alt"></i>&nbsp;Share</a>
+          </div>
+        </div>
+
+
+
+        <div class="row">
+
+          <div class="col-8">
+
+            <!-- Citations (currently dummy text) -->
+            <h2 class="header">
+              Citations
+            </h2>
+
+            <div id="citations">
+              <a href="" style="margin-left: 12px;"
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              </a>
+              <br />
+              <small id="year" style="margin-left: 12px;"
+                >2000, Lorem ipsum dolor sit amet consectetur</small
+              >
+              <p style="margin-left: 12px;">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
+                cumque incidunt dolore quae aperiam iusto facere sit molestias
+                consequuntur explicabo blanditiis expedita, ipsa corporis temporibus
+                officiis placeat, earum pariatur similique!
+              </p>
+            </div>
+            <div id="citations">
+              <a href="" style="margin-left: 12px;"
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              </a>
+              <br />
+              <small id="year" style="margin-left: 12px;"
+                >2000, Lorem ipsum dolor sit amet consectetur</small
+              >
+              <p style="margin-left: 12px;">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
+                cumque incidunt dolore quae aperiam iusto facere sit molestias
+                consequuntur explicabo blanditiis expedita, ipsa corporis temporibus
+                officiis placeat, earum pariatur similique!
+              </p>
+            </div>
+            <div id="citations">
+              <a href="" style="margin-left: 12px;"
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              </a>
+              <br />
+              <small id="year" style="margin-left: 12px;"
+                >2000, Lorem ipsum dolor sit amet consectetur</small
+              >
+              <p style="margin-left: 12px;">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
+                cumque incidunt dolore quae aperiam iusto facere sit molestias
+                consequuntur explicabo blanditiis expedita, ipsa corporis temporibus
+                officiis placeat, earum pariatur similique!
+              </p>
+            </div>
+            <div id="citations">
+              <a href="" style="margin-left: 12px;"
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              </a>
+              <br />
+              <small id="year" style="margin-left: 12px;"
+                >2000, Lorem ipsum dolor sit amet consectetur</small
+              >
+              <p style="margin-left: 12px;">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam
+                cumque incidunt dolore quae aperiam iusto facere sit molestias
+                consequuntur explicabo blanditiis expedita, ipsa corporis temporibus
+                officiis placeat, earum pariatur similique!
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="col-4">
+
+            <!-- <div class="container"> -->
+
+            <h2 class="header">Concepts</h2>
+
+              <div id="concept-background">
+                <div id="keywords">
+                  <a
+                  href="javascript:void(0)"
+                  (click)="highlight_text(abstract, concept, 'abstract')"
+                    *ngFor="let concept of concepts; let i = index"
+                    class="keyword"
+                    role="button"
+
+                    >{{ concept.keyword }}
+                  </a>
+
+                  <button
+                  href="javascript:void(0)"
+                  (click)="highlight_text(abstract, '', 'abstract')"
+                  class="feedback searchbutton filter-button filters"
+                  style="float:left; margin-left:0;margin-bottom:0;"
+                    >Remove Highlight
+                  </button>
+
+                </div>
+              </div>
+
+            <!-- </div> -->
+
+
+              <br>
+              <h2 class="header">Search</h2>
+
+              <div class="container" style="background-color:rgba(0,0,0,.025);padding:0;">
+
+                <form target="_self" style="width:100%;">
+  								<!-- Search field -->
+  								<div class="col" style="padding:10px 10px 10px 10px;">
+  									<input ngModel
+  										name="search"
+  										#search="ngModel"
+  										class="form-control"
+  										value="{{search}}"
+  										type="search"
+  										placeholder="Search Peer Reviewed Articles"
+  										style="background-color: #fff; border-radius:5px; margin-left:0;"
+  										/>
+  								</div>
+  								<!-- Submit Button -->
+  								<div class="col" style="padding:0;">
+  									<input
+  										type="submit"
+  										value="Search"
+  										id="search"
+  										onclick="window.location.href='http://localhost:4200/displayresults?search=' + search[0].value"
+  										class="searchbutton filter-button filters"
+  										role="button"
+  										style="float:left; margin-top:10px; margin-left:0;margin-bottom:0;"
+  										/>
+  								</div>
+  							</form>
+
+              </div>
+
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <!-- Footer Component -->
+    <app-footerrelative></app-footerrelative>
+
+  </body>
+
+</html>

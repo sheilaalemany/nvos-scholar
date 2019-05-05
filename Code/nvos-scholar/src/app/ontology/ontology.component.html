@@ -1,0 +1,268 @@
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Ontology</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+	<!-- <link rel="stylesheet" href="../homepage_assets/bootstrap/css/bootstrap.min.css" /> -->
+	<!-- <link rel="stylesheet" href="../homepage_assets/fonts/font-awesome.min.css" /> -->
+	<!-- <link rel="stylesheet" href="../homepage_assets/fonts/typicons.min.css" /> -->
+	<!-- <link rel="stylesheet" href="../homepage_assets/css/untitled.css" /> -->
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" /> -->
+
+	<!-- NEW -->
+	<!-- <link rel="stylesheet" href="treeview/css/bootstrap337.css" type="text/css"/> -->
+	<!-- <link rel="stylesheet" href="treeview/css/jOWL.css" type="text/css"/> -->
+	<!-- <link type="text/css" rel="stylesheet" href="treeview/css/jq/custom-theme/jquery-ui-1.7.custom.css" /> -->
+
+
+	<!-- For navbar.html import -->
+	<!-- <script src="https://code.jquery.com/jquery-1.10.2.js"></script> -->
+	<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> -->
+
+    <!-- <style type="text/css">
+    </style> -->
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="./treeview/scripts/jquery.tooltip.js"></script>
+	<script type="text/javascript" src="./treeview/scripts/jOWL.js"></script>
+	<script type="text/javascript" src="./treeview/scripts/jOWL_UI.js"></script>
+	<script type="text/javascript" src="./treeview/scripts/jOWLBrowser.js"></script>
+    <script type="text/javascript">
+/**
+Modify this configuration object to fine-tune the visualisation of the jOWL browser.
+*/
+	var configuration = {
+		ontology : "treeview/data/envo-basic.owl", //the ontology to load
+		owlClass       : 'geographic feature', //The class to show when loading
+		// owlclass			: null,
+		classOverview  : true, //show or hide the class overview list.
+		propertiesTab  : true, //show or hide the properties panel
+		individualsTab : false, //show or hide the individuals panel
+		sparqldlTab    : true  //show or hide the sparq-dl panel
+	}
+
+/**
+Do not Modify the code below unless you know what you are doing.
+*/
+$(document).ready(function() {
+	if(!configuration.propertiesTab) { $('#propertyPanel').remove();   $('#tab2').remove(); }
+	if(!configuration.individualsTab){ $('#Axiomwidget').appendTo("body").hide(); $('#individualPanel').remove(); $('#tab3').remove(); }
+	if(!configuration.sparqldlTab)   { $('#sparqldlPanel').remove();   $('#tab4').remove(); }
+
+	$("#tabs").tabs();
+
+	jOWL.load(configuration.ontology, initjOWL, {reason : true, locale : 'en' });
+});
+
+function initjOWL(){
+
+		createOntologyWidget();
+		var conceptWidget = createConceptWidget();
+
+		if(configuration.classOverview){
+			jOWLBrowser.views.push({query: "Class(?x)", element : $('#classlist'), widget : conceptWidget});
+			}
+
+		if(configuration.propertiesTab){
+			var propertyWidget = createPropertyWidget();
+			jOWLBrowser.views.push({query: "ObjectProperty(?x)", element : $('#OPlist'), widget : propertyWidget});
+			jOWLBrowser.views.push({query: "DatatypeProperty(?x)", element : $('#DPlist'), widget : propertyWidget});
+			}
+
+		// if(configuration.individualsTab){
+		// 	var thingWidget = createIndividualsWidget();
+		//
+		// 	setTimeout(function(){//show individuals asynchronously
+		// 		var arr = new jOWL.Ontology.Array();
+		// 		for(key in jOWL.index('Thing')){
+		// 				arr.concat(jOWL.index('Thing')[key], true);
+		// 			}
+		// 		showOverviewResults(arr, $('#thinglist'), thingWidget);
+		// 	}, 200);
+		//
+		// 	}
+
+		if(configuration.sparqldlTab){
+			createSparqlDLWidget();
+			}
+
+		createOverviewWidget();
+}
+</script>
+
+</head>
+
+<body>
+
+<!-- Navbar Component -->
+<app-navbaraccount></app-navbaraccount>
+
+					<div class="row"></div>
+
+					<div class="container" style="padding-top: 80px;">
+						<h4>Environment Ontology</h4>
+						<h6>Available at <a class="address-color" href="https://bioportal.bioontology.org/ontologies/ENVO">https://bioportal.bioontology.org/ontologies/ENVO</a></h6>
+					</div>
+
+					<div class="container pad-bottom padding-top">
+							<div id="tabs">
+
+								<ul>
+									<li><a href="#tab1">Classes</a></li>
+									<li id="propertyPanel"><a href="#tab2">Properties</a></li>
+									<!-- <li id="individualPanel"><a href="#tab3">Individuals</a></li> -->
+									<li id="sparqldlPanel"><a href="#tab4">SPARQL-DL</a></li>
+								</ul>
+
+								<div class="tab-content">
+
+									<div id="tab1" class="tab-pane fade in active">
+											<h5>Click on any of the concepts below, or search, to see the ontology relationships below</h5>
+
+										<div id="classlist" class="panel-body-new  text-center border">
+
+											<p>Most Frequently Searched Concepts</p>
+
+										</div>
+
+										<div id="conceptwidget">
+											<form action="" class="form-inline margin-top">
+												Treeview: &nbsp; <input class="form-control" type="radio" name="visualisation" value="treeview" checked="checked"/>
+												&nbsp; Node Graph: &nbsp; <input class="form-control" type="radio" name="visualisation" value="navbar"/>
+											</form>
+											<div class="row full-width">
+
+												<div class="col col-sm-5 col-md-5 col-lg-5">
+													<div id="treeview" class="panel panel-default">
+														<div class="panel-heading">Treeview</div>
+													</div>
+													<!-- <div id="navbar" style="display:none" class="panel panel-default">
+														<div class="panel-heading">Navigation View</div>
+													</div> -->
+
+												</div>
+
+												<div class="col col-sm-4 col-md-4 col-lg-4">
+													<div id="description" class="resourcebox panel panel-default" data-jowl="owl:Class">
+														<div class="panel-heading propertybox" data-jowl="rdfs:label">
+                              <!-- <b>Concept:</b> <span>$'{'rdfs:label'}'</span> -->
+                            </div>
+														<div class="panel-body">
+															<!-- <div class="propertybox"> <b>Description</b>: <span data-jowl="rdfs:comment">$'{'rdfs:comment'}'</span></div> -->
+															<!-- <div class="propertybox"> <b>Terms</b>: <span data-jowl="term">$'{'term'}'</span></div> -->
+															<div class="propertybox" id="disjoints">
+																<!-- <b>Disjoint With</b>: <span data-jowl="owl:disjointWith">$'{'owl:disjointWith'}'</span> -->
+															</div>
+															<div class="propertybox">
+																<b>Relations</b>:
+																<ul>
+																	<li data-jowl="sparql-dl:PropertyValue(owl:Class, ?p, ?t)">
+																		<!-- <span>$'{'?p'}'</span><span>: </span><span class="jowl-template-result-link"><font color="#B6862C">$'{'?t'}'</font></span> -->
+																	</li>
+																</ul>
+															</div>
+															<div id="individualsPropertyBox" class="propertybox" style="padding:5px;">
+																<b>Instances</b><br/>
+																<!-- <span class="valuebox" data-jowl="sparql-dl:DirectType(?i, owl:Class)">$'{'?i'}'</span> -->
+															</div>
+														</div>
+													</div>
+												</div>
+
+												<div class="col">
+
+													<div class="panel panel-default">
+														<div class="panel-heading" style="text-">Search with Filter</div>
+														<div class="panel-body">
+
+													<div class="row" style="margin-left: 0px;"><input class="shift" type="checkbox" id="scales" checked><label>Concepts</label></div>
+													<div class="row" style="margin-left: 0px;"><input class="shift" type="checkbox" id="scales" checked><label>Descriptions</label></div>
+													<div class="row" style="margin-left: 0px;"><input class="shift" type="checkbox" id="scales" checked><label>Relations</label></div>
+													<br>
+
+													<input id="owlauto" type="text" size="40"
+													placeholder="Enter Search Terms Here"
+													style="display:block;width:100%;"
+													title="enter a search term"/>
+
+												</div>
+												</div>
+
+												</div>
+
+											</div>
+										</div>
+									</div>
+
+									<div id="tab2">
+										<!-- <div class="text-left">
+											<p>
+												<b>ObjectProperties</b>
+												<div id="OPlist"></div>
+											</p>
+											<p>
+												<b>DatatypeProperties</b>
+												<div id="DPlist"></div>
+											</p> -->
+										</div>
+
+										<hr class="space"/>
+										<div id="propertywidget">
+											<div class="resourcebox ui-widget-content" data-jowl="rdf:Property">
+												<!-- <h4 class="ui-dialog-titlebar ui-state-default propertybox" data-jowl="rdfs:label">Description of <span>$'{'rdfs:label'}'</span></h4> -->
+												<div class="jowl-content">
+													<!-- <div class="propertybox" data-jowl="rdfs:comment">$'{'rdfs:comment'}'</div> -->
+													<div class="propertybox">
+														<!-- <b>Terms</b>: <span data-jowl="term">$'{'term'}'</span> -->
+													</div>
+													<div class="propertybox">
+														<!-- <b>Domain</b>: <span data-jowl="rdfs:domain">$'{'rdfs:domain'}'</span> -->
+													</div>
+													<div class="propertybox">
+														<!-- <b>Range</b>: <span data-jowl="rdfs:range">$'{'rdfs:range'}'</span> -->
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div id="tab4" class="text-left">
+										<h4>Enter a query:</h4>
+										<form id="sparql"><input type="text" size="100"/></form>
+										<hr class="space"/>
+										<table style="width:100%"><tr>
+										<td style="width:50%;">
+											<h3>Results</h3>
+											<div class="loader hide" >
+												<div style="color:black">Querying, Please Stand By</div>
+												<img src="http://ontologyonline.org/img/ajax-loader.gif" alt="Loading Image"/>
+											</div>
+											<div id="sparqlresults" class="box"></div>
+										</td>
+										<td>
+											<h3>Syntax</h3>
+											<ul>
+												<!-- <li>Type(?a, ?b)</li> -->
+												<!-- <li>PropertyValue(?a, ?b, ?c)</li> -->
+												<li>Class(?a)</li>
+												<li>ObjectProperty(?a)</li>
+												<li>DatatypeProperty(?a)</li>
+											</ul>
+											Examples: See <a href="http://jowl.ontologyonline.org/SPARQL-DL.html">jOWL SPARQL-DL Test Suite</a>
+										</td>
+										</tr></table>
+									</div>
+
+								</div>
+							</div>
+						<!-- </div> -->
+
+									</body>
+
+                  <!-- Footer Component -->
+                  <app-footerrelative></app-footerrelative>

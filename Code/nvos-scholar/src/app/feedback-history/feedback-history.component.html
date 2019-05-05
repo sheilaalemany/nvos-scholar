@@ -1,0 +1,59 @@
+<head>
+    <!-- <link
+      rel="stylesheet"
+      href="../../../assets/css/Navigation-with-Search.css"
+    /> -->
+    <link rel="stylesheet" href="../../../homepage_assets/css/untitled.css" />
+  </head>
+
+  <!-- Navbar Component -->
+  <app-navbarlogout></app-navbarlogout>
+
+  <div class="container">
+
+  <!-- User's information -->
+  <div *ngIf="userDetails" id="profile-body">
+    <button class="searchbutton submit" (click)="profile()">Profile</button>
+
+    <h2>
+      {{ userDetails.fullName.split(" ")[0] }}
+      {{ userDetails.fullName.split(" ")[1] }}'s Feedback History
+    </h2>
+    <br />
+    <div
+      style="margin-top: 10px; margin-left: 5px;" *ngFor="let feedback of userDetails.feedback"
+    >
+    <div class=row>
+        <div class = "col-md-10">
+      <!-- Article title with link to the article information page -->
+      <a
+        id="title"
+        style="margin-top: 10px;"
+        href="http://localhost:4200/article?article_title={{ feedback.title }}"
+        >{{ feedback.title }}</a
+      >
+      <br />
+      <small *ngFor="let author of feedback.authors" id="author"
+        >{{ author.name }} -
+      </small>
+      <small id="year">{{ feedback.year | slice: 0:10 }}</small>
+      <p id="abstract">{{ feedback.abstract | slice: 0:200 }}...</p>
+    </div>
+    <div class="col-md-2">
+      <div *ngIf= "feedback.rate > 0;else elseRateBlock">
+            <br />
+         <img src="../../../assets/img/up-arrow-green.png" alt="up arrow Icon" style="width:60px;height:60px;">
+        </div>
+        <ng-template #elseRateBlock>
+                <br />
+            <img src="../../../assets/img/down-arrow-red.png" alt="down arrow icon" style="width:60px;height:60px;">
+           </ng-template>
+        </div>
+        </div>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- Footer Component -->
+  <app-footerrelative></app-footerrelative>

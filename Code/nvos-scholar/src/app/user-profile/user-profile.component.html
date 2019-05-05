@@ -1,0 +1,55 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="../../../assets/css/Navigation-with-Search.css"
+  />
+  <!-- <link rel="stylesheet" href="../../../homepage_assets/css/untitled.css" /> -->
+</head>
+
+<!-- Navbar Component -->
+<app-navbarlogout></app-navbarlogout>
+
+<div class="container">
+
+<div *ngIf="userDetails" id="profile-body">
+  <button class="searchbutton submit" (click)="searchHistory()">
+    Search History
+  </button>
+
+  <button class="searchbutton submit" (click)="clickHistory()">
+    Click History
+  </button>
+
+  <button class="searchbutton submit" (click)="feedbackHistory()">
+    Feedback History
+  </button>
+
+  <h2>
+    {{ userDetails.fullName.split(" ")[0] }}
+    {{ userDetails.fullName.split(" ")[1] }}'s Saved Articles
+  </h2>
+  <br />
+
+  <div
+    style="margin-top: 10px; margin-left: 5px"
+    *ngFor="let article of userDetails.articles"
+  >
+    <a
+      id="title"
+      style="margin-top: 10px;"
+      href="http://localhost:4200/article?article_title={{ article.title }}"
+      >{{ article.title }}</a
+    >
+    <br />
+    <small *ngFor="let author of article.authors" id="author"
+      >{{ author.name }} -
+    </small>
+    <small id="year">{{ article.year | slice: 0:10 }}</small>
+    <p id="abstract">{{ article.abstract | slice: 0:200 }}...</p>
+  </div>
+</div>
+
+</div>
+
+<!-- Footer Component -->
+<app-footerrelative></app-footerrelative>

@@ -1,0 +1,46 @@
+<head>
+  <!-- <link
+    rel="stylesheet"
+    href="../../../assets/css/Navigation-with-Search.css"
+  /> -->
+  <!-- <link rel="stylesheet" href="../../../homepage_assets/css/untitled.css" /> -->
+</head>
+
+<!-- Navbar Component -->
+<app-navbarlogout></app-navbarlogout>
+
+<div class="container">
+
+<!-- User's information -->
+<div *ngIf="userDetails" id="profile-body">
+  <button class="searchbutton submit" (click)="profile()">Profile</button>
+
+  <h2>
+    {{ userDetails.fullName.split(" ")[0] }}
+    {{ userDetails.fullName.split(" ")[1] }}'s Click History
+  </h2>
+  <br />
+  <div
+    style="margin-top: 10px; margin-left: 5px"
+    *ngFor="let click of userDetails.click"
+  >
+    <!-- Article title with link to the article information page -->
+    <a
+      id="title"
+      style="margin-top: 10px;"
+      href="http://localhost:4200/article?article_title={{ click.title }}"
+      >{{ click.title }}</a
+    >
+    <br />
+    <small *ngFor="let author of click.authors" id="author"
+      >{{ author.name }} -
+    </small>
+    <small id="year">{{ click.year | slice: 0:10 }}</small>
+    <p id="abstract">{{ click.abstract | slice: 0:200 }}...</p>
+  </div>
+</div>
+
+</div>
+
+<!-- Footer Component -->
+<app-footerrelative></app-footerrelative>

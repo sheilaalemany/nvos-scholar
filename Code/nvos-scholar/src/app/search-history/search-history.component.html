@@ -1,0 +1,33 @@
+<head>
+  <link
+    rel="stylesheet"
+    href="../../../assets/css/Navigation-with-Search.css"
+  />
+  <!-- <link rel="stylesheet" href="../../../homepage_assets/css/untitled.css" /> -->
+</head>
+
+<!-- Navbar Component -->
+<app-navbarlogout></app-navbarlogout>
+
+<div class="container">
+<div *ngIf="userDetails" id="profile-body">
+  <button class="searchbutton submit" (click)="profile()">Profile</button>
+
+  <h2>
+    {{ userDetails.fullName.split(" ")[0] }}
+    {{ userDetails.fullName.split(" ")[1] }}'s Search History
+  </h2>
+  <br />
+  <div style="margin-top: 10px;" *ngFor="let search of userDetails.search">
+    <a
+      style="margin-top: 10px; margin-left: 5px;font-size: 20px;
+      color: rgb(0, 0, 200);"
+      href="http://localhost:4200/displayresults?search={{ search.spacedQuery }}"
+      >{{ search.spacedQuery }}</a
+    >
+  </div>
+</div>
+</div>
+
+<!-- Footer Component -->
+<app-footerrelative></app-footerrelative>

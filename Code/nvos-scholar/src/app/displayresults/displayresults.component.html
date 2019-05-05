@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Display Results</title>
+		<!-- CSS and Bootstrap files needed for styling -->
+		<link
+			rel="stylesheet"
+			href="../../../assets/bootstrap/css/bootstrap.min.css"
+			/>
+		<link rel="stylesheet" href="../../../assets/fonts/typicons.min.css" />
+		<!-- <link rel="stylesheet" href="../../../assets/css/Footer-Basic.css" /> -->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"
+			/>
+		<link
+			rel="stylesheet"
+			href="../../../assets/css/Navigation-with-Search.css"
+			/>
+		<link rel="stylesheet" href="../../../assets/css/styles.css" />
+		<link
+			rel="stylesheet"
+			type="text/css"
+			media="screen"
+			href="../../../citestyle.css"
+			/>
+		<!-- <link rel="stylesheet" href="../homepage_assets/css/untitled.css"> -->
+	</head>
+	<body>
+		<!-- Navbar Component -->
+		<app-navbaraccount></app-navbaraccount>
+
+		<!-- Concepts -->
+		<div class="container">
+
+			<div id="concepts">
+				<div class="flex-grow-1 justify-content-between display-results-concepts text-center">
+					<div *ngIf="response">
+						<div style="display: inline-block">
+							<!-- Functionality for dynamically generating concept buttons -->
+							<h4 class="padding-above">You could also search for...</h4>
+							<button
+							*ngFor="
+							let hit of (response.hits.hits
+							| paginate: { itemsPerPage: 6, currentPage: p });
+							let i = index
+							"
+							id="concept"
+							(click)="addConcept(i)"
+							class="btn btn-primary"
+							role="button"
+							style="padding-left:10px;padding-right:10px;"
+							>
+							{{ hit._source.keywords[0].keyword }}
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div style="margin-bottom: 10px; margin-top: 0px;">
+				<a href="javascript:void(0)" (click)="website(0)" id="subtasks">
+				<i class="fa fa-file-text-o"></i>&nbsp;View Results In Microsoft
+				Academic</a
+					>
+				<a href="javascript:void(0)" (click)="website(1)" id="subtasks">
+				<i class="fa fa-file-text-o"></i>&nbsp;View Results In Semantic
+				Scholar</a
+					>
+			</div>
+			<div class="row" style="margin-right:0px;">
+				<div class="col-md-8">
+					<!-- Article results -->
+					<div class="jumbotron" style="color:#222222;background-color:#ffffff;">
+						<div *ngIf="response">
+							<div
+								*ngFor="
+								let hit of (finalResponse
+								| orderBy: key:true
+								| paginate: { itemsPerPage: 10, currentPage: p });
+								let i = index
+								"
+								>
+
+								<div>
+
+								<div class="container" style="padding-left:0;">
+
+										<!-- Arrows for feedback -->
+									<div class="row" >
+										<div class="col-md-1" style="vertical-align:middle;">
+										<!-- <br> -->
+										<a
+											href="javascript:void(0)"
+											(click)="addup(hit._source.title, response.hits.hits[i]._source.authors,
+											hit._source.cover_date,
+											hit._source.abstract)"
+											><span id="{{ hit._source.title }}-imageup"><img src="../../../assets/img/up-arrow-gray.png" alt="up arrow icon" style="width:35px;height:35px;border:0;margin-bottom:15px;"></span></a>
+											<!-- <br> -->
+											<!-- <br> -->
+										<a
+											href="javascript:void(0)"
+											(click)="substract(hit._source.title,
+											response.hits.hits[i]._source.authors,
+											hit._source.cover_date,
+											hit._source.abstract)"
+											><span id="{{ hit._source.title }}-imagedown"><img src="../../../assets/img/down-arrow-gray.png" alt="down arrow icon" style="width:35px;height:35px;border:0;"></span></a>
+								</div>
+									<!-- END of Arrows for feedback -->
+
+									<div class="col-md-11" style="background-color: rgba(0,0,0,.025)">
+										<!-- Article title with link to URL -->
+										<a
+											routerLink="/article"
+											(click)="navigate(i)"
+											style="font-size: 20px; color: rgb(0,0,200);"
+											>{{ hit._source.title }}</a>
+
+									<!-- <br /> -->
+									<br>
+									<!-- Article author -->
+									<div class="row"
+										style="display: inline; margin:0px;"
+										*ngFor="
+										let author of (response.hits.hits[i]._source.authors
+										| slice: 0:3)
+										"
+										>
+										<p class="authorName" style="margin-top:15px;margin-left:0px;">{{ author.name }}</p>
+										<p style="display: inline;margin:0px;margin-left:0px;">-</p>
+									</div>
+									<!-- Article date -->
+									<p class="year" style="margin-left:0px;">{{ hit._source.cover_date | slice: 0:10 }}</p>
+
+									<div class="container" style="padding-left:0px;">
+										<!-- Article abstract -->
+										<p style="margin-bottom:4px;">{{ hit._source.abstract | slice: 0:200 }}...</p>
+									</div>
+								</div>
+								</div>
+
+								<div class="row" style="padding-left:65px; padding-bottom: 10px;">
+									<!-- View PDF button -->
+									<a
+										href="{{hit._source.url}}"
+										target="_blank"
+										id="subtasks">
+										<i class="fa fa-file-pdf-o"></i>&nbsp;View PDF</a>
+									<!-- End of view PDF button -->
+									<!-- Cite button -->
+									<div id="popupbox" class="popupposition">
+										<div id="popupwrapper">
+											<div id="container">
+												<h3>MLA</h3>
+												<p>
+													Casagrande, Daniel J., et al. "Sulfur in peat-forming
+													systems of the Okefenokee Swamp and Florida
+													Everglades: origins of sulfur in coal." Geochimica et
+													Cosmochimica Acta 41.1 (1977): 161-167.
+												</p>
+												<p>
+													<a
+														href="javascript:void(0)"
+														(click)="toggle_cite('popupbox')"
+														>Close</a>
+												</p>
+											</div>
+										</div>
+									</div>
+									<a
+										href="javascript:void(0)"
+										(click)="toggle_cite('popupbox')"
+										id="subtasks">
+									<i class="fa fa-quote-right"></i>&nbsp;Cite</a>
+									<!-- End of cite button -->
+									<!-- Save button -->
+									<a
+										id="subtasks"
+										href="javascript:void(0)"
+										(click)="
+										saveArticle(
+										hit._source.title,
+										response.hits.hits[i]._source.authors,
+										hit._source.cover_date,
+										hit._source.abstract
+										)
+										"
+										class="subtasks"
+										tabindex="1"
+										>&nbsp;<i class="fa fa-save"></i>&nbsp;<span id="{{ hit._source.title }}">Save</span>
+									</a>
+									<!-- End of save button -->
+
+									<!-- Share button -->
+									<div id="share" class="popupposition">
+										<div id="popupwrapper">
+											<div id="container">
+												<div style="margin-bottom: 5px;">
+													<fb-like url="{{hit._source.url}}"></fb-like>
+												</div>
+												<div style="margin-bottom: 5px;">
+													<google-plus url="{{hit._source.url}}"></google-plus>
+												</div>
+												<div style="margin-bottom: 5px;">
+													<linkedin-share url="{{hit._source.url}}"></linkedin-share>
+												</div>
+												<div style="margin-bottom: 5px;">
+													<pin-it url="{{hit._source.url}}"></pin-it>
+												</div>
+												<div style="margin-bottom: 5px;">
+													<tweet url="{{hit._source.url}}"></tweet>
+												</div>
+												<p>
+													<a href="javascript:void(0)" (click)="share('share')">Close</a>
+												</p>
+											</div>
+										</div>
+									</div>
+									<a
+										id="subtasks"
+										href="javascript:void(0)"
+										(click)="share('share')"
+										class="subtasks"
+										>
+									<i class="fa fa-share-alt"></i>&nbsp;Share</a>
+									<!-- End of share button -->
+								</div>
+								<!-- End of row -->
+
+								</div>
+									<div class="container">
+
+									</div>
+									<!-- Space between each article -->
+									<div style="margin-bottom: 10px;">
+									</div>
+								</div>
+							</div>
+							<!-- Event handler for pagination -->
+							<pagination-controls class="my-pagination"
+								(pageChange)="p = $event"
+								onclick="window.scrollTo(0,0)"
+								></pagination-controls>
+						</div>
+						<!-- </div> -->
+					</div>
+
+				</div>
+				<div class="col-md-4" style="margin-top:0px;background-color:rgba(0,0,0,.025);height:480px;padding:5px;">
+					<div>
+						<h4 style="margin-top: 5px; margin-left:15px;">Search</h4>
+						<div class="row" style="margin-left:0;margin-right:0;">
+							<form target="_self" style="width:100%">
+								<!-- Search field -->
+								<div class="col">
+									<input ngModel
+										name="search"
+										#search="ngModel"
+										class="form-control"
+										value="{{search}}"
+										type="search"
+										placeholder="{{ query }}"
+										style="background-color: #fff; border-radius:5px;"
+										/>
+								</div>
+
+								<!-- Submit Button -->
+								<div class="col">
+									<input
+										type="submit"
+										value="Search"
+										id="search"
+										onclick="window.location.href='http://localhost:4200/displayresults?search=' + search[0].value"
+										class="searchbutton filter-button filters"
+										role="button"
+										style="float:left; margin-top:10px; margin-left:0;margin-bottom:0;"
+										/>
+								</div>
+							</form>
+						</div>
+						<hr>
+						<h4 class="padding-above">Date Range</h4>
+						<div class="row" style="margin-left:0;margin-right:0;">
+							<div class="col-6" style="padding-right:2px;">
+								<input class="form-control"
+								ngModel
+								name="minYear"
+								#minYear="ngModel"
+								type="number"
+								placeholder="{{ defaultMinYear }}"
+								(focusout)="checkRange(minYear.viewModel)"
+								/>
+							</div>
+							<div class="col-6" style="padding-left:2px;">
+								<input
+								class="form-control"
+								ngModel
+								name="maxYear"
+								#maxYear="ngModel"
+								type="number"
+								placeholder="{{ defaultMaxYear }}"
+								(focusout)="checkRange(maxYear.viewModel)"
+								/>
+							</div>
+							<div class="col">
+								<input
+									class="searchbutton filter-button filters"
+									type="button"
+									value="Filter Date Range"
+									(click)="getDate(minYear.viewModel, maxYear.viewModel)"
+									style="float: left; margin-top: 10px; margin-left:0;margin-bottom:0;"
+									/>
+							</div>
+						</div>
+						<hr>
+						<h4 class="padding-above">Sort By</h4>
+						<div class="row" style="margin-left:0;margin-right:0;">
+							<div class="col">
+								<button class="searchbutton sort-button filters" (click)="sort('_score')" style="margin:0;">
+								Relevance
+								</button>
+							</div>
+							<div class="col">
+								<button class="searchbutton sort-button filters" (click)="sort('_source.cover_date')" style="margin:0;">
+								Most Recent
+								</button>
+							</div>
+						</div>
+						<hr>
+						<div class="row" style="margin-left:0;margin-right:0;">
+							<div class="col">
+								<input
+									class="searchbutton filter-button filters"
+									type="button"
+									value="Clear Filters"
+									(click)="clearFilters()"
+									style="float:left; margin-bottom: 15px; margin-left:0;"
+									/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Footer Component -->
+		<app-footerrelative></app-footerrelative>
+
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+		<script src="assets/js/bs-animation.js"></script>
+	</body>
+</html>
